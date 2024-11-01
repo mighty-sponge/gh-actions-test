@@ -2,7 +2,7 @@ name: Branch build
 
 on:
   pull_request_target:
-    types: [opened,closed,synchronize,review]
+    types: [opened,closed,synchronize,review_requested]
 
   workflow_dispatch:
     inputs:
