@@ -1,0 +1,30 @@
+name: Branch build
+
+on:
+  pull_request_target:
+    types: [opened,closed,synchronize]
+
+  workflow_dispatch:
+    inputs:
+      tf_comment:
+        description: 'TestFlight Comment'
+        default: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.fork || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+           fetch-depth: 0
+           ref: ${{ github.event.pull_request.head.ref }}
+           repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+      - name: Debug
+        run: |
+          ls -lah
+          echo ${{ github.event.pull_request.head.ref }}
+          echo ${{ github.event.pull_request.head.repo.full_name }}
